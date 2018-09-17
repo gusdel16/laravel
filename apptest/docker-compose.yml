@@ -1,0 +1,25 @@
+version: '2'
+services:
+  db:
+    image: mysql
+    volumes:
+     - "./data/mysql:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laraveldb
+      MYSQL_PASSWORD: secret
+
+  laravel:
+    build: .
+    ports:
+      - "5000:80"
+    restart: always
+    volumes:
+     - "./:/opt/data"
+    restart: always
+    depends_on:
+      - db
+    links:
+      - db
